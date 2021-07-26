@@ -1,6 +1,7 @@
 library(tidyverse)
 library(weathercan)
 library(lubridate)
+library(patchwork)
 
 # Find station(s)
 stations_search(name = "brandon", interval = "day")
@@ -119,3 +120,7 @@ p3
 
 ggsave(plot = p3, filename = "Brandon GDD.png", width = 230, height = 200, units = "mm", dpi = 600)
 
+# combine all three plots using patchwork
+p4 <- p1 + p2 + p3
+
+ggsave(plot = p4, filename = "Brandon_figs.png", width = 650, height = 200, units = "mm", dpi = 600)
