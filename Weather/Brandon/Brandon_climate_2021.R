@@ -123,4 +123,4 @@ ggsave(plot = p3, filename = "Brandon GDD.png", width = 230, height = 200, units
 # combine all three plots using patchwork
 p4 <- p1 + p2 + p3
 
-ggsave(plot = p4, filename = "Brandon_figs.png", width = 650, height = 200, units = "mm", dpi = 600)
+ggsave(plot = p4, filename = "Brandon_figs.jpg", width = 650, height = 200, units = "mm", dpi = 300)
