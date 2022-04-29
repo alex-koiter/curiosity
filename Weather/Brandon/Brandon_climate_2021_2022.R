@@ -1,7 +1,6 @@
 library(tidyverse)
 library(weathercan)
 library(lubridate)
-library(patchwork)
 
 # Find station(s)
 stations_search(name = "brandon", interval = "day")
@@ -70,5 +69,5 @@ p1 <- ggplot(data = avg, aes(y = median , x = new_date)) +
 p1
 
 
-ggsave(plot = p1, filename = "Brandon water year precip 2021_2022.png", width = 230, height = 200, units = "mm", dpi = 600)
+ggsave(plot = p1, filename = "./Weather/Brandon/Brandon water year precip 2021_2022.png", width = 230, height = 200, units = "mm", dpi = 600)
 
