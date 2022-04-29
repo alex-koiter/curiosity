@@ -52,11 +52,17 @@ p1 <- ggplot(data = avg, aes(y = median , x = new_date)) +
   geom_line(aes(colour = "1959-2019 Median"), size = 1.5) +
   geom_line(data = filter(water_year, water_year == 2021), aes(y = cum_precip , x = new_date, colour = "2021"), size = 1.5) +
   geom_line(data = filter(water_year, water_year == 2022), aes(y = cum_precip , x = new_date, colour = "2022"), size = 1.5) +
-  scale_colour_manual(name='', values = c("1959-2019 Median" = "black", "2021" = "red", "2022" = "blue")) +
-  scale_fill_manual(name = "", values = c("10-90th Percentile" = "grey50")) +
-  scale_x_date(date_labels = "%B", expand = c(0,0)) +
+  scale_colour_manual(name='', 
+                      values = c("1959-2019 Median" = "black", "2021" = "red", "2022" = "blue")) +
+  scale_fill_manual(name = "", 
+                    values = c("10-90th Percentile" = "grey50")) +
+  scale_x_date(date_labels = "%B", 
+               expand = c(0,0),
+               breaks = "1 month") +
   scale_y_continuous(expand = c(0,0)) +
-  labs(y = "Cumulative Precipitation (mm)", x = "Date", title = "Water Year (Oct-Sept) Cumulative Precipitation \nBrandon MB") +
+  labs(y = "Cumulative Precipitation (mm)", 
+       x = "Date", 
+       title = "Water Year (Oct-Sept) Cumulative Precipitation \nBrandon MB") +
   theme_bw(base_size = 20) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "bottom") 
