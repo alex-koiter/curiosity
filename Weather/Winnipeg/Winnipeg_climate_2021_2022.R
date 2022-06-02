@@ -3,12 +3,16 @@ library(weathercan)
 library(lubridate)
 
 # Find station(s)
-stations_search(name = "brandon", interval = "day")
+stations_search(name = "WINNIPEG", interval = "day") %>%
+  filter(TC_id == "YWG")
+
+stations_search(coords = c(49.9, -97.2), dist = 5, interval = "day")
+
 
 # Download data from ECCC
-## Brandon A has two entries 1941- 2012 and 2012-current so we need to bind them together. 
-data <- weather_dl(station_ids = "50821", start = "2012-10-01", interval = "day") %>%
-  bind_rows(weather_dl(station_ids = "3471", start = "1958-10-01", end = "2012-09-30", interval = "day"))
+## Winnipeg has a bunch of entries so we need to bind them together. 
+data <- weather_dl(station_ids = "27174", start = "2009-01-01", interval = "day") %>%
+  bind_rows(weather_dl(station_ids = "3698", start = "1958-10-01", end = "2008-12-31", interval = "day"))
 
 # Assign water year e.g., 2019-10-01 to 2020-09-30 is the 2020 water year
 water_year <- data %>%
@@ -17,7 +21,8 @@ water_year <- data %>%
   mutate(new_date = ymd(ifelse(month < 10, paste("2020", month(date), day(date)), paste("2019", month(date), day(date))))) %>%
   mutate(total_precip = replace_na(total_precip, 0)) %>%
   group_by(water_year) %>%
-  mutate(cum_precip = cumsum(total_precip))
+  mutate(cum_precip = cumsum(total_precip)) %>%
+  select(month, new_date, cum_precip, water_year)
 
 # plot all years
 p <- ggplot(data = water_year, aes(y = cum_precip , x = new_date, group = water_year)) +
@@ -31,7 +36,7 @@ p <- ggplot(data = water_year, aes(y = cum_precip , x = new_date, group = water_
 
 p
 
-# Plotting the historical data as percentiles makes more sense
+# Plotting the historical data as pecentiles makes more sense
 # Need to exclude current year
 avg <- data %>%
   mutate(day = as.numeric(day), month = as.numeric(month), year = as.numeric(year)) %>%
@@ -61,7 +66,7 @@ p1 <- ggplot(data = avg, aes(y = median , x = new_date)) +
   scale_y_continuous(expand = c(0,0)) +
   labs(y = "Cumulative Precipitation (mm)", 
        x = "Date", 
-       title = "Water Year (Oct-Sept) Cumulative Precipitation \nBrandon MB") +
+       title = "Water Year (Oct-Sept) Cumulative Precipitation \nWinnipeg MB") +
   theme_bw(base_size = 20) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "bottom") 
@@ -69,5 +74,5 @@ p1 <- ggplot(data = avg, aes(y = median , x = new_date)) +
 p1
 
 
-ggsave(plot = p1, filename = "./Weather/Brandon/Brandon water year precip 2021_2022.png", width = 230, height = 200, units = "mm", dpi = 600)
+ggsave(plot = p1, filename = "./Weather/Winnipeg/Winnipeg water year precip 2021_2022.png", width = 230, height = 200, units = "mm", dpi = 600)
 
