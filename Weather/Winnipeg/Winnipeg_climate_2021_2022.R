@@ -63,7 +63,7 @@ p1 <- ggplot(data = avg, aes(y = median , x = new_date)) +
   scale_x_date(date_labels = "%B", 
                expand = c(0,0),
                breaks = "1 month") +
-  scale_y_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0), breaks = seq(0, 700, 200), limits = c(0, 700)) +
   labs(y = "Cumulative Precipitation (mm)", 
        x = "Date", 
        title = "Water Year (Oct-Sept) Cumulative Precipitation \nWinnipeg MB") +
