@@ -7,8 +7,8 @@ stations_search(name = "brandon", interval = "day")
 
 # Download data from ECCC
 ## Brandon A has two entries 1941- 2012 and 2012-current so we need to bind them together. 
-data <- weather_dl(station_ids = "50821", start = "2012-10-01", interval = "day") %>%
-  bind_rows(weather_dl(station_ids = "3471", start = "1958-10-01", end = "2012-09-30", interval = "day"))
+data <- weather_dl(station_ids = "50821", start = "2012-10-01", end = "2022-09-30", interval = "day") %>%
+  bind_rows(weather_dl(station_ids = "3471", start = "1959-10-01", end = "2012-09-30", interval = "day"))
 
 # Assign water year e.g., 2019-10-01 to 2020-09-30 is the 2020 water year
 water_year <- data %>%
@@ -48,11 +48,11 @@ avg <- data %>%
 
 p1 <- ggplot(data = avg, aes(y = median , x = new_date)) +
   geom_ribbon(aes(ymin = per.10, ymax = per.90, fill = "Interval")) +
-  geom_line(aes(colour = "1959-2019 Median"), size = 1.5) +
+  geom_line(aes(colour = "1960-2020 Median"), size = 1.5) +
   geom_line(data = filter(water_year, water_year == 2021), aes(y = cum_precip , x = new_date, colour = "2021"), size = 1.5) +
   geom_line(data = filter(water_year, water_year == 2022), aes(y = cum_precip , x = new_date, colour = "2022"), size = 1.5) +
   scale_colour_manual(name='', 
-                      values = c("1959-2019 Median" = "black", "2021" = "red", "2022" = "blue")) +
+                      values = c("1960-2020 Median" = "black", "2021" = "red", "2022" = "blue")) +
   scale_fill_manual(name = "", 
                     values = c("10-90th Percentile" = "grey50")) +
   scale_x_date(date_labels = "%B", 
