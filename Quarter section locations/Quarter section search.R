@@ -3,10 +3,16 @@ library(sf)
 library(mapview)
 
 # Get the data
-download.file("https://mli.gov.mb.ca/quarter_sec/data/mb_township_system_corners.zip", 
-              destfile = "mb_township_system_corners.zip")
 
-unzip("mb_township_system_corners.zip", files = "MB_QuarterSectionCorners.csv")
+MB_QuarterSection <- "MB_QuarterSectionCorners.csv"
+if (file.exists(MB_QuarterSection)) {
+  print("The data already exists!")
+} else {
+  download.file("https://mli.gov.mb.ca/quarter_sec/data/mb_township_system_corners.zip", 
+                destfile = "mb_township_system_corners.zip")
+  unzip("mb_township_system_corners.zip", files = "MB_QuarterSectionCorners.csv")
+}
+
 
 # Extract quarter section number 
 MB_corners <- read.csv("MB_QuarterSectionCorners.csv") %>%
